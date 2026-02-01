@@ -1,66 +1,63 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
-import Success from "./components/Success";
-import Asking from "./components/Asking";
-import flowerBear from "./flowerBear.gif";
-import madBear from "./madBear.gif";
 
-/**
- * Main App component managing the Valentine's Day proposal.
- *
- * @returns {JSX.Element} JSX element representing the App component.
- */
-const App = () => {
-  // State to track acceptance and rejection
-  const [accepted, setAccepted] = useState(false);
-  const [rejected, setRejected] = useState(false);
-  const [noButtonText, setNoButtonText] = useState("No");
-  const [lastRejectedIndex, setLastRejectedIndex] = useState(-1);
+const sadViolin = new Audio("/sad-violin.mp3");
+sadViolin.volume = 0.4;
 
-  // Handler for accepting the proposal
-  const handleAccept = () => {
-    setAccepted(true);
-  };
+function App() {
+  const moveNoButton = () => {
+    const btn = document.getElementById("no-btn");
 
-  // Handler for rejecting the proposal
-  const handleReject = () => {
-    setRejected(true);
-    // Array of rejection messages
-    const rejectionTexts = [
-      "Are you sure?",
-      "Maybe try again?",
-      "Think again!",
-      "Loser :(",
-    ];
-    // Randomly select a rejection message
-    let randomIndex;
-    do {
-      randomIndex = Math.floor(Math.random() * rejectionTexts.length);
-    } while (randomIndex === lastRejectedIndex);
+    sadViolin.currentTime = 0;
+    sadViolin.play();
 
-    setLastRejectedIndex(randomIndex);
-    setNoButtonText(rejectionTexts[randomIndex]);
+    btn.style.position = "absolute";
+    btn.style.top = Math.random() * 80 + "vh";
+    btn.style.left = Math.random() * 80 + "vw";
   };
 
   return (
-    <div className="App">
-      <div className="App-body">
-        {/* Asking to be my Valentine */}
-        {!accepted && (
-          <Asking
-            gif={rejected ? madBear : flowerBear}
-            altText={rejected ? "Rejected Bear" : "I love you Bear"}
-            handleAccept={handleAccept}
-            handleReject={handleReject}
-            noButtonText={noButtonText}
-          />
-        )}
+    <div style={{ height: "100vh", textAlign: "center" }}>
+      <h1>⚠️ EMERGENCY ANNOUNCEMENT ⚠️</h1>
 
-        {/* She said YES! */}
-        {accepted && <Success />}
+      <h2>
+        Miss Githinji(babes),
+        <br />
+        after extreme overthinking,
+        <br />
+        emotional suffering,
+        <br />
+        and unnecessary imagination…
+      </h2>
+
+      <h1>Will you be my Valentine? 💘</h1>
+
+      <div style={{ marginTop: "40px" }}>
+        <button
+          style={{ fontSize: "20px", padding: "12px 25px" }}
+          onClick={() =>
+            alert(
+              "YOU SAID YES 😭💖\nMiss Githinji(babes), I am officially your Valentine."
+            )
+          }
+        >
+          Yes 😍
+        </button>
+
+        <button
+          id="no-btn"
+          style={{
+            fontSize: "20px",
+            padding: "12px 25px",
+            marginLeft: "20px",
+          }}
+          onMouseEnter={moveNoButton}
+        >
+          No 🙄
+        </button>
       </div>
     </div>
   );
-};
+}
 
 export default App;
